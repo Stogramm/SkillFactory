@@ -1,4 +1,5 @@
 from random import randint
+import time
 
 
 class Dot:
@@ -187,6 +188,8 @@ class User(Player):
 
 class Game:
     def __init__(self, size=6):
+        self.lens = [3, 2, 2, 1, 1, 1, 1]
+
         self.size = size
         pl = self.random_board()
         co = self.random_board()
@@ -202,10 +205,10 @@ class Game:
         return board
 
     def random_place(self):
-        lens = [3, 2, 2, 1, 1, 1, 1]
+
         board = Board(size=self.size)
         attempts = 0
-        for l in lens:
+        for l in self.lens:
             while True:
                 attempts += 1
                 if attempts > 2000:
@@ -229,15 +232,19 @@ class Game:
         print(" x - номер строки  ")
         print(" y - номер столбца ")
 
+    def print_boards(self):
+        print("-" * 20)
+        print("Доска пользователя:")
+        print(self.us.board)
+        print("-" * 20)
+        print("Доска компьютера:")
+        print(self.ai.board)
+        print("-" * 20)
+
     def loop(self):
         num = 0
         while True:
-            print("-" * 20)
-            print("Доска пользователя:")
-            print(self.us.board)
-            print("-" * 20)
-            print("Доска компьютера:")
-            print(self.ai.board)
+            self.print_boards()
             if num % 2 == 0:
                 print("-" * 20)
                 print("Ходит пользователь!")
@@ -250,11 +257,13 @@ class Game:
                 num -= 1
 
             if self.ai.board.count == 7:
+                self.print_boards()
                 print("-" * 20)
                 print("Пользователь выиграл!")
                 break
 
             if self.us.board.count == 7:
+                self.print_boards()
                 print("-" * 20)
                 print("Компьютер выиграл!")
                 break
